@@ -129,6 +129,7 @@ namespace Проект5 {
 			this->lb->Size = System::Drawing::Size(35, 13);
 			this->lb->TabIndex = 5;
 			this->lb->Text = L"label3";
+			this->lb->Click += gcnew System::EventHandler(this, &MyForm::lb_Click);
 			// 
 			// MyForm
 			// 
@@ -160,12 +161,51 @@ namespace Проект5 {
 			double z, z0;
 			z0 = 25;
 			z = v / (r*r);
-			if (z < z0)lb->Text = "Нужна диета!";
+			if (z<z0)lb->Text = "Нужна диета!";
 			else lb->Text = "Не нужна диета.";
 		}
 		else{
 			lb->Text = "Введите все значения!";
 		}
 	}
-
+	private: System::Void tb1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+		if (e->KeyChar<48 || e->KeyChar>57)
+		{
+			e->Handled = true;
+		}
+		if (tb1->Text != "")
+			if (Convert::ToInt32(tb1->Text)>99)
+				e->Handled = true;
 	}
+private: System::Void tb2_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+	if ((e->KeyChar<48 || e->KeyChar>57) && e->KeyChar != ',')
+	{
+		e->Handled = true;
+	}
+	if (tb2->Text != "")
+		if (Convert::ToDouble(tb2->Text) >= 999.2){
+			e->Handled = true;
+		}
+		else{
+			if (e->KeyChar == ','){
+				if (tb2->Text == "")
+				{
+					e->Handled = true;
+				}
+				String ^s = tb2->Text;
+				for (int i = 0; i<tb2->Text->Length; i++){
+					if (s[i] == ',') e->Handled = true;
+				}
+			}
+		}
+}
+private: System::Void tb1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void tb2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void lb_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+};
+}
